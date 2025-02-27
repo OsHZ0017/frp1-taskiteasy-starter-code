@@ -12,7 +12,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        return view('projects.index', ['projects' => Project::all()]);
     }
 
     /**
@@ -20,7 +20,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('projects.create');
     }
 
     /**
@@ -28,7 +28,15 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required',
+            'description' => 'required'
+        ]);
+        // Create a new Post model object
+        Project::create($validated);
+
+        // Redirect to the blog index page
+        return redirect()->route('projects.index');
     }
 
     /**
@@ -36,7 +44,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return view('projects.show', ['project' => $project]);
     }
 
     /**
@@ -44,7 +52,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('projects.edit', ['project' => $project]);
     }
 
     /**
@@ -52,7 +60,16 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'id' => ['numeric', 'required']
+        ]);
+
+        $old = Project::find($validated['id']);
+        $old->update($validated);
+
+        return redirect()->route('project.show', ['project' => $project]);
     }
 
     /**
@@ -60,6 +77,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+
+        return redirect()->route('projects.index');
     }
 }

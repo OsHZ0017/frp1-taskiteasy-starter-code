@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\InfoController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProjectController;
 
 /**
  * Basic information like the Home page and About page
@@ -30,4 +31,4 @@ Route::get('/blog/{id}/edit', [PostController::class, 'edit'])->name('post.edit'
 Route::put('/blog/{id}', [PostController::class, 'update'])->name('post.update');
 Route::delete('/blog/{id}', [PostController::class, 'delete'])->name('post.delete');
 
-Route::resource('projects','ProjectController');
+Route::resource('projects', ProjectController::class);
